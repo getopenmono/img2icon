@@ -1,5 +1,7 @@
 # img2icon
 
+[![Build Status](https://travis-ci.org/getopenmono/img2icon.svg?branch=master)](https://travis-ci.org/getopenmono/img2icon)
+
 **This tool will convert a bitmap image (gif, bmp, jpg, png) into Mono's _Icon_ format**
 
 It quite crude tool, it reads the alpha channel (if exists) and output a header file with an array of alpha values.
