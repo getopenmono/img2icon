@@ -3,3 +3,4 @@ img2icon.build
 *xcodeproj
 moc_*
 .qmake.stash
+.DS_Store
