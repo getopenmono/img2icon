@@ -4,7 +4,7 @@
 
 **This tool will convert a bitmap image (gif, bmp, jpg, png) into Mono's _Icon_ format**
 
-It quite crude tool, it reads the alpha channel (if exists) and output a header file with an array of alpha values.
+It is a crude tool, it reads the alpha channel (if exists) and output a header file with an array of alpha values.
 
 ## Usage
 
@@ -14,6 +14,7 @@ Options:
   -v, --version                  Displays version information.
   -d, --destination <directory>  The directory to place the converted file in
   -g, --grey                     Use monochrome channel and not alpha values
+  -s, --size X,Y                 Downscale to X times Y pixels.
   -i, --invert                   Invert the bitmap values, dark is light and
                                  light is dark.
 

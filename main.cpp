@@ -80,14 +80,20 @@ int main(int argc, char *argv[])
     parser.addVersionOption();
     parser.addPositionalArgument("input", QCoreApplication::translate("main", "Source image file."));
 
-    QCommandLineOption greyChannelOption(QStringList() << "g" << "grey", QCoreApplication::translate("main", "Use monochrome channel and not alpha values"));
+    QCommandLineOption greyChannelOption(QStringList() << "g" << "grey", QCoreApplication::translate("main", "Use monochrome channel and not alpha values."));
     QCommandLineOption invertOption(QStringList() << "i" << "invert", QCoreApplication::translate("main", "Invert the bitmap values, dark is light and light is dark."));
     QCommandLineOption targetDirectoryOption(QStringList() << "d" << "destination",
-                                             QCoreApplication::translate("main", "The directory to place the converted file in"),
+                                             QCoreApplication::translate("main", "The directory to place the converted file in."),
                                              QCoreApplication::translate("main", "directory"));
+    QCommandLineOption downscaleOption(
+        QStringList() << "s" << "size",
+        QCoreApplication::translate("main", "Downscale to X times Y pixels."),
+        "X,Y"
+    );
     parser.addOption(targetDirectoryOption);
     parser.addOption(greyChannelOption);
     parser.addOption(invertOption);
+    parser.addOption(downscaleOption);
 
     parser.process(app);
 
@@ -97,7 +103,6 @@ int main(int argc, char *argv[])
         parser.showHelp(1);
     }
 
-
     QString inputFile = args.at(0);
     if (QFile::exists(inputFile) == false)
     {
@@ -105,8 +110,22 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    QString outputFile;
     QFileInfo info(inputFile);
+    QImage original(inputFile);
+    size_t x = original.size().width();
+    size_t y = original.size().height();
+    qDebug() << "Input image size is: " << x << "*" << y;
+
+    if (parser.isSet(downscaleOption))
+    {
+        QStringList xAndY = parser.value(downscaleOption).split(",");
+        x = xAndY[0].toUInt();
+        y = xAndY[1].toUInt();
+        qDebug() << "Scaling to " << x << "*" << y;
+    }
+    QImage transformed = original.scaled(x, y, Qt::KeepAspectRatio);
+
+    QString outputFile;
     if (parser.isSet(targetDirectoryOption))
     {
         outputFile = parser.value(targetDirectoryOption);
@@ -115,23 +134,18 @@ int main(int argc, char *argv[])
     {
         outputFile = info.dir().path() + "/" + info.baseName() + ".h";
     }
-
-    QImage image(inputFile);
     QFile outFile(outputFile);
-
     outFile.open(QIODevice::WriteOnly);
-
-    qDebug() << "Input image size is: " << image.size();
 
     QString varName = toCamelCase(info.baseName());
     qDebug() << "Global C variable:" << varName;
 
     if (parser.isSet(greyChannelOption))
     {
-        greyImage(varName, image, &outFile, parser.isSet(invertOption));
+        greyImage(varName, transformed, &outFile, parser.isSet(invertOption));
     }
-    else if (image.hasAlphaChannel())
-        alphaImage(varName, image, &outFile);
+    else if (transformed.hasAlphaChannel())
+        alphaImage(varName, transformed, &outFile);
     else
         qWarning() << "Image does not have an alpha channel. Use grey option.";
 
