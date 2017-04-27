@@ -4,3 +4,6 @@ img2icon.build
 moc_*
 .qmake.stash
 .DS_Store
+Makefile
+img2icon
+*.o
