@@ -123,7 +123,7 @@ int main(int argc, char *argv[])
         y = xAndY[1].toUInt();
         qDebug() << "Scaling to " << x << "*" << y;
     }
-    QImage transformed = original.scaled(x, y, Qt::KeepAspectRatio);
+    QImage transformed = original.scaled(x, y, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
     QString outputFile;
     if (parser.isSet(targetDirectoryOption))
