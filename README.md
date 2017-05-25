@@ -1,6 +1,6 @@
 # img2icon
 
-[![Build Status](https://travis-ci.org/getopenmono/img2icon.svg?branch=master)](https://travis-ci.org/getopenmono/img2icon)
+[![Build Status](https://travis-ci.org/getopenmono/img2icon.svg?branch=master)](https://travis-ci.org/getopenmono/img2icon) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/getopenmono/img2icon?branch=master&svg=true "AppVeyor Build Status")](https://ci.appveyor.com/project/stoffera/img2icon)
 
 **This tool will convert a bitmap image (gif, bmp, jpg, png) into Mono's _Icon_ format**
 
