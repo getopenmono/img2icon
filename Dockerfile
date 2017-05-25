@@ -6,4 +6,4 @@ CMD git clone https://github.com/getopenmono/img2icon.git && \
     qmake && \
     make && \
     ./img2icon -h && \
-    if [ -d $TARGET_DIR ]; then echo "copy to $TARGET_DIR"; cp img2icon $TARGET_DIR; fi
+    if [ $TARGET_DIR -a -d $TARGET_DIR ]; then echo "copy to $TARGET_DIR"; cp img2icon $TARGET_DIR; fi

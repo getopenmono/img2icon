@@ -4,5 +4,4 @@ branches:
     - master
 before_install:
 script:
-  - docker build -t qt5img .
-  - docker run qt5img
+  - docker run monolit/img2icon
